@@ -14,9 +14,9 @@ public:
   virtual void Stop(void) final;
 
 protected:
-  virtual void RunThread(void);
+  virtual void RunThread(void) = 0;
 
-
+private:
   bool running_ {false};
   std::thread thread_;
 }; // AbstractThread

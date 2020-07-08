@@ -1,5 +1,5 @@
 #include "Node.hpp"
-
+#include <iostream>
 Node::Node(std::shared_ptr<Forwarder> forwarder):
   forwarder_(forwarder)
 {
@@ -18,5 +18,5 @@ void Node::RegisterNodeAsNext(std::shared_ptr<Node> nextNode)
 
 void Node::ReceiveData(std::shared_ptr<PipelineData> data)
 {
-  message_queue_.Enqueue(data);
+  OnDataAvailable(data);
 } // ReceiveData

@@ -16,10 +16,9 @@ class UdpReceiver
 {
 public:
   UdpReceiver();
-
+  ~UdpReceiver();
   bool Open(const std::string & ipAddress, int port);
   void Close();
-
   ssize_t Receive(void * buffer, std::size_t size);
 private:
   int socket_fd_ {-1};

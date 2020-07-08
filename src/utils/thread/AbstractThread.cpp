@@ -1,5 +1,14 @@
 #include "AbstractThread.hpp"
 
+AbstractThread::AbstractThread()
+{
+
+} // AbstractThread
+AbstractThread::~AbstractThread()
+{
+
+}// ~AbstractThread
+
 bool AbstractThread::IsRunning(void) const
 {
   return running_;

@@ -5,6 +5,11 @@ UdpReceiver::UdpReceiver()
 
 } // UdpReceiver
 
+UdpReceiver::~UdpReceiver()
+{
+  Close();
+} // UdpReceiver
+
 bool UdpReceiver::Open(const std::string & ipAddress, int port)
 {
   bool ret {true};

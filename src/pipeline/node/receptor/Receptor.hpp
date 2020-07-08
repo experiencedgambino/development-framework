@@ -8,8 +8,8 @@
 class Receptor
 {
 public:
-  virtual void ReceiveData(std::shared_ptr<PipelineData> data);
-  
+  virtual void ReceiveData(std::shared_ptr<PipelineData> data) = 0;
+
 }; // Receptor
 
 #endif // RECEPTOR_HPP

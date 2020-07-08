@@ -1,3 +1,6 @@
+#ifndef NODE_HPP_
+#define NODE_HPP_
+
 #include <memory>
 #include "Forwarder.hpp"
 #include "GenericForwarder.hpp"
@@ -15,6 +18,6 @@ private:
   void ReceiveData(std::shared_ptr<PipelineData> data);
 
   std::shared_ptr<Forwarder> forwarder_ {nullptr};
-
-  MessageQueue<PipelineData> message_queue_;
 }; // Node
+
+#endif // NODE_HPP_
