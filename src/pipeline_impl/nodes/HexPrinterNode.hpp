@@ -3,16 +3,16 @@
 
 #include <iostream>
 #include "AbstractThread.hpp"
-#include "Node.hpp"
+#include "AsyncNode.hpp"
 #include "UdpReceiver.hpp"
 
-class HexPrinterNode: public Node
+class HexPrinterNode: public AsyncNode
 {
 public:
   HexPrinterNode();
   ~HexPrinterNode();
 
-  void OnDataAvailable(std::shared_ptr<PipelineData> data) override;
+  void OnDataAvailableAsync(std::shared_ptr<PipelineData> data) override;
 
 }; // HexPrinterNode
 

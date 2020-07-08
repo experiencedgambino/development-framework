@@ -10,7 +10,7 @@ HexPrinterNode::~HexPrinterNode()
 
 } // ~HexPrinterNode
 
-void HexPrinterNode::OnDataAvailable(std::shared_ptr<PipelineData> data)
+void HexPrinterNode::OnDataAvailableAsync(std::shared_ptr<PipelineData> data)
 {
   std::cout << "Printing received data of size " << data->buffer_.size() << std::endl;
 
