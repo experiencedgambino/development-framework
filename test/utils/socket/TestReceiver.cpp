@@ -1,3 +1,4 @@
+#include "SignalUntilKill.hpp"
 #include "StringConverter.hpp"
 #include "UdpReceiver.hpp"
 
@@ -21,8 +22,7 @@ int main(int argc, char ** argv)
   receiver.Open(argv[IP_ARGNUM], port);
   std::size_t size_to_alloc = StringConverter::StringTo<std::size_t>(argv[SIZE_ARGNUM]);;
   char * buffer = (char *) malloc(size_to_alloc);
-  while (true)
-  {
-    std::cout << receiver.Receive(buffer, size_to_alloc) << std::endl;
-  } // while
+
+  SignalUntilKill suk;
+  suk.ReturnOnSignal();
 } // main

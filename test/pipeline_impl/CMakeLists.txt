@@ -1,2 +1,3 @@
 add_executable(TestPipelineNodes TestPipelineNodes.cpp)
-target_link_libraries(TestPipelineNodes PUBLIC nodes_impl)
+target_link_libraries(TestPipelineNodes nodes_impl)
+target_link_libraries(TestPipelineNodes signalutils)

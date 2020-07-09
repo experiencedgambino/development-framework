@@ -1,6 +1,6 @@
 #include "HexPrinterNode.hpp"
+#include "SignalUntilKill.hpp"
 #include "UdpReceiverNode.hpp"
-
 
 int main()
 {
@@ -12,8 +12,6 @@ int main()
   std::dynamic_pointer_cast<HexPrinterNode>(hex_printer_node)->Run();
   udp_receiver_node->RegisterNodeAsNext(hex_printer_node);
 
-  while(1)
-  {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-  }
+  SignalUntilKill suk;
+  suk.ReturnOnSignal();
 } // main
