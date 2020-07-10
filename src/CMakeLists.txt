@@ -1,3 +1,4 @@
+add_subdirectory(dsp)
 add_subdirectory(pipeline)
 add_subdirectory(pipeline_impl)
 add_subdirectory(signaling)

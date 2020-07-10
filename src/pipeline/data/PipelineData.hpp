@@ -7,10 +7,10 @@
 class PipelineData
 {
 public:
-  std::vector<std::uint8_t> buffer_ {};
-
+  ~PipelineData();
   PipelineData & operator=(const PipelineData & data);
 
+  std::vector<std::uint8_t> buffer_ {};
 }; // PipelineData
 
 #endif // PIPELINEDATA_HPP_
