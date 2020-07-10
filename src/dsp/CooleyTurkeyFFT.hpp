@@ -1,6 +1,8 @@
 // https://www.drdobbs.com/cpp/a-simple-and-efficient-fft-implementatio/199500857
 #include <algorithm>
 #include <cmath>
+#include <complex>
+#include <iostream>
 
 inline void four1(double* data, unsigned long nn)
 {
@@ -52,3 +54,50 @@ inline void four1(double* data, unsigned long nn)
         mmax=istep;
     }
 }
+
+void dft_attempt(std::complex<double> * data, std::size_t size)
+{
+
+} // dft_attempt
+
+
+std::shared_ptr<std::vector<std::complex<double>>> fft(double * data, std::size_t size)
+{
+  std::shared_ptr<std::vector<std::complex<double>>> return_ptr
+    = std::make_shared<std::vector<std::complex<double>>>(ß);
+
+  if (size % 2 != 0)
+  {
+    std::cout << "Number of elements must be power of 2" << std::endl;
+    return false;
+  } // if
+
+  return_ptr = std::make_shared<
+}
+
+
+
+// Assumes output and data are same
+std::shared_ptr< fft_attempt(double * data, double * output, std::size_t stride = 1)
+{
+
+
+  if (size <= 2)
+  {
+    return dft_attempt(data, size/2);
+  } // if
+
+  fft_attempt(data, stride * 2);
+  fft_attempt(data + stride, stride * 2);
+
+  T even {0.0};
+  T odd {0.0};
+  for (std::size_t subfft_index = 0; subfft_index < size/2; subfft_index+=(stride*2))
+  {
+    even = std::exp(std::complex<double>(0, -2 * math.PI));
+    *(data)
+  } // for
+  // terms = np.exp(-2j * np.pi * np.arange(N) / N)
+        // return np.concatenate([X_even + terms[:int(N/2)] * X_odd,
+                               // X_even + terms[int(N/2):] * X_odd])
+} // fft_attempt
