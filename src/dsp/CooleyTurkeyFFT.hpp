@@ -4,6 +4,8 @@
 #include <complex>
 #include <iostream>
 
+bool fft_attempt(double * input, double * output, std::size_t size, std::size_t stride);
+
 inline void four1(double* data, unsigned long nn)
 {
     unsigned long n, mmax, m, j, istep, i;
@@ -55,49 +57,76 @@ inline void four1(double* data, unsigned long nn)
     }
 }
 
-void dft_attempt(std::complex<double> * data, std::size_t size)
-{
 
+bool fft(double * input, double * output, std::size_t size)
+{
+  bool return_value {true};
+  if (size % 2 == 0)
+  {
+    // Process if size divisible by 2
+    fft_attempt(input, output, size, 1);
+  } // if
+} // fft
+
+void dft_attempt(double * input, double * output, std::size_t size, std::size_t stride)
+{
+  // Outer loop calculates each value of the DFT
+  for (std::size_t k_counter = 0; k_counter < size; ++k_counter)
+  {
+    output[k_counter] = 0;
+    // Inner loop
+    for (std::size_t n_counter = 0; n_counter < size; ++n_counter)
+    {
+      output[k_counter] += input[k_counter] * cos((2 * M_PI / size) * k_counter * n_counter);
+    } // for
+  } // for
 } // dft_attempt
 
-
-std::shared_ptr<std::vector<std::complex<double>>> fft(double * data, std::size_t size)
-{
-  std::shared_ptr<std::vector<std::complex<double>>> return_ptr
-    = std::make_shared<std::vector<std::complex<double>>>(ß);
-
-  if (size % 2 != 0)
-  {
-    std::cout << "Number of elements must be power of 2" << std::endl;
-    return false;
-  } // if
-
-  return_ptr = std::make_shared<
-}
-
-
-
 // Assumes output and data are same
-std::shared_ptr< fft_attempt(double * data, double * output, std::size_t stride = 1)
+bool fft_attempt(double * input, double * output, std::size_t size, std::size_t stride)
 {
-
-
+  bool return_value {true};
   if (size <= 2)
   {
-    return dft_attempt(data, size/2);
+    dft_attempt(input, output, size, stride);
   } // if
 
-  fft_attempt(data, stride * 2);
-  fft_attempt(data + stride, stride * 2);
+  std::cout << "(Size, Stride) (" << size << "," << stride << ")" << std::endl;
 
-  T even {0.0};
-  T odd {0.0};
-  for (std::size_t subfft_index = 0; subfft_index < size/2; subfft_index+=(stride*2))
-  {
-    even = std::exp(std::complex<double>(0, -2 * math.PI));
-    *(data)
-  } // for
-  // terms = np.exp(-2j * np.pi * np.arange(N) / N)
-        // return np.concatenate([X_even + terms[:int(N/2)] * X_odd,
-                               // X_even + terms[int(N/2):] * X_odd])
+  std::this_thread
+
+  fft_attempt(input, output, size / 2, stride * 2);
+  fft_attempt(input + stride, output, size / 2, stride * 2);
+
+  double * temp = (double *) malloc(size * sizeof(double));
+  // for (std::size_t k_index = 0; k_index < size/2; k_index+=(stride*2))
+  // {
+  //   temp[k_index] = output[k_index * stride * 2] + (double) cos(-2.0 * M_PI * k_index / size) * output[stride+(k_index*stride*2)];
+  // } // for
+
+  free(temp);
+
+  return return_value;
 } // fft_attempt
+
+
+
+
+
+/*
+
+  Xn           [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]
+
+  Keven        [0]         [2]         [4]         [6]
+  Kodd               [1]         [3]         [5]         [7]
+
+ K[0]          [0]   [1]
+ K[1]                      [2]   [3]
+ K[2]                                  [4]   [5]
+ K[3]                                              [6]   [7]
+ K[4]          [0]   [1]
+ K[5]                      [2]   [3]
+ K[6]                                  [4]   [5]
+ K[7]                                              [6]   [7]
+
+*/
