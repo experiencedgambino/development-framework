@@ -17,6 +17,6 @@ int main()
 
   for (int i = 0; i < size; ++i)
   {
-    std::cout << sin(4 * i * interval) << "," << output[i] << std::endl;
+    std::cout << sin(10000 * i * interval) << "," << output[i] << std::endl;
   } // for
 } // main
