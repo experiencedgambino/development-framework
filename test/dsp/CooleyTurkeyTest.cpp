@@ -2,8 +2,19 @@
 
 int main()
 {
-  double * input = (double *) malloc(1024);
-  double * output = (double *) malloc(1024);
+  int size = 8;
+  double * input = (double *) malloc(size * sizeof(double));
+  double * output = (double *) malloc(size * sizeof(double));
 
-  fft(input, output, 1024);
+  for (int i = 0; i < size; ++i)
+  {
+    input[i] = i;
+  } // for
+
+  fft(input, output, size);
+
+  for (int i = 0; i < size; ++i)
+  {
+    std::cout << output[i] << std::endl;
+  } // for
 } // main
