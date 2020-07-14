@@ -61,11 +61,6 @@ bool WavReader::Write(const std::string & wavfileName)
   if (mOutputFileStream.good() == true)
   {
     std::uint32_t bytes_to_serialize = Serialize();
-    for (int i = 0; i < 50; ++i)
-    {
-      std::cout << std::hex << *(std::uint32_t*)(mWavFileBuffer+i*4);
-    } // for
-    std::cout << std::endl;
     mOutputFileStream.write(reinterpret_cast<char *>(mWavFileBuffer), bytes_to_serialize);
     free(mWavFileBuffer);
   } // else
@@ -143,12 +138,12 @@ std::uint32_t WavReader::Serialize(void)
 
   // Wav File Header
   riffHeader_.Serialize(serializer);
-  std::cout << serializer.GetCurrentSize() << std::endl;
+
   if (foundJunk_ == true)
   {
     junkchunk_.Serialize(serializer);
   } // if
-  std::cout << serializer.GetCurrentSize() << std::endl;
+
   if (foundList_ == true)
   {
     listchunk_.Serialize(serializer);

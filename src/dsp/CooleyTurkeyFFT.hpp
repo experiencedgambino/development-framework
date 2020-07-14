@@ -44,7 +44,35 @@ bool fft(double * input, double * output, std::size_t size)
   return return_value;
 } // fft
 
-void dft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride)
+bool fft(double * input,  std::complex<double> * output, std::size_t size)
+{
+  bool return_value {true};
+
+  // Compute if size divisible by 2
+  if (size % 2 == 0)
+  {
+    std::complex<double> * input_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
+
+    // Need to convert real input data to complex format
+    for (std::size_t input_counter = 0; input_counter < size; ++input_counter)
+    {
+      input_complex[input_counter].real(input[input_counter]);
+    } // for
+
+    // Run complex FFT
+    fft_attempt(input_complex, output, size, 1);
+
+    free(input_complex);
+  } // if
+  else
+  {
+    return_value = false;
+  } // else
+
+  return return_value;
+} // fft
+
+void dft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride = 1)
 {
   // Saves computational time for this calculation in the exponential
   double exponential_constant = -2 * M_PI / size;
