@@ -6,13 +6,14 @@
 void dft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
 void idft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
 void fft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
+bool ifft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
 
 bool fft(double * input, double * output, std::size_t size)
 {
   bool return_value {true};
 
   // Compute if size divisible by 2
-  if (size % 2 == 0)
+  if (ceil(log2((float)size)) == floor(log2((float)size)))
   {
     std::complex<double> * output_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
     std::complex<double> * input_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
@@ -156,3 +157,37 @@ void fft_attempt(std::complex<double> * input, std::complex<double> * output, st
   // Free allocated temporary vector
   free(temp);
 } // fft_attempt
+
+// Assumes output and data are same
+bool ifft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size)
+{
+  /*
+  For an inverse FFT, run the same algorithm as a normal
+  FFT, but then reverse the order of the output elements,
+  starting at index of 1
+  */
+
+  // Only run if size is power of 2
+  if (ceil(log2((float)size)) == floor(log2((float)size)))
+  {
+    fft_attempt(input, output, size, 1);
+
+    // Reverse order of input samples
+    for (std::size_t k_index = 1; k_index < size / 2; ++k_index)
+    {
+      std::swap(output[k_index], output[size - k_index]);
+    } // if
+
+    // Needs to be divided by the size to return to original samples
+    for (std::size_t k_index = 0; k_index < size; ++k_index)
+    {
+      output[k_index] /= size;
+    } // if
+    return true;
+  } // if
+  else
+  {
+    return false;
+  } // else
+
+} // ifft_attempt

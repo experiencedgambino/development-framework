@@ -2,21 +2,25 @@
 
 int main()
 {
-  int size = 65536;
-  double * input = (double *) malloc(size * sizeof(double));
-  double * output = (double *) malloc(size * sizeof(double));
+  int size = 4;
+  std::complex<double> * input = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
+  std::complex<double> * output = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
+  std::complex<double> * input_reclaimed = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
+
 
   double interval = 2 * M_PI / size;
 
   for (int i = 0; i < size; ++i)
   {
-    input[i] = sin(10000 * i * interval);
+    input[i].real(i+1);
   } // for
 
-  fft(input, output, size);
+  fft_attempt(input, output, size, 1);
+  ifft_attempt(output, input_reclaimed, size);
+
 
   for (int i = 0; i < size; ++i)
   {
-    std::cout << sin(10000 * i * interval) << "," << output[i] << std::endl;
+    std::cout << input[i] << "," << input_reclaimed[i] << std::endl;
   } // for
 } // main
