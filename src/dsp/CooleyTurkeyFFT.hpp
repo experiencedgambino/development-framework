@@ -6,51 +6,51 @@
 void dft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
 void idft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
 void fft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
-bool ifft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size, std::size_t stride);
+bool ifft_attempt(std::complex<double> * input, std::complex<double> * output, std::size_t size);
 
-bool fft(double * input, double * output, std::size_t size)
-{
-  bool return_value {true};
-
-  // Compute if size divisible by 2
-  if (ceil(log2((float)size)) == floor(log2((float)size)))
-  {
-    std::complex<double> * output_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
-    std::complex<double> * input_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
-
-    // Need to convert real input data to complex format
-    for (std::size_t input_counter = 0; input_counter < size; ++input_counter)
-    {
-      input_complex[input_counter].real(input[input_counter]);
-    } // for
-
-    // Run complex FFT
-    fft_attempt(input_complex, output_complex, size, 1);
-
-    // Place magnitude of complex FFT output into output data
-    for (std::size_t k_index = 0; k_index < size; ++k_index)
-    {
-      output[k_index] = std::abs(output_complex[k_index]);
-    } // for
-
-    free(output_complex);
-    free(input_complex);
-  } // if
-  else
-  {
-    return_value = false;
-  } // else
-
-
-  return return_value;
-} // fft
+// bool fft(double * input, double * output, std::size_t size)
+// {
+//   bool return_value {true};
+//
+//   // Compute if size divisible by 2
+//   if (ceil(log2((float)size)) == floor(log2((float)size)))
+//   {
+//     std::complex<double> * output_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
+//     std::complex<double> * input_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
+//
+//     // Need to convert real input data to complex format
+//     for (std::size_t input_counter = 0; input_counter < size; ++input_counter)
+//     {
+//       input_complex[input_counter].real(input[input_counter]);
+//     } // for
+//
+//     // Run complex FFT
+//     fft_attempt(input_complex, output_complex, size, 1);
+//
+//     // Place magnitude of complex FFT output into output data
+//     for (std::size_t k_index = 0; k_index < size; ++k_index)
+//     {
+//       output[k_index] = std::abs(output_complex[k_index]);
+//     } // for
+//
+//     free(output_complex);
+//     free(input_complex);
+//   } // if
+//   else
+//   {
+//     return_value = false;
+//   } // else
+//
+//
+//   return return_value;
+// } // fft
 
 bool fft(double * input,  std::complex<double> * output, std::size_t size)
 {
   bool return_value {true};
 
   // Compute if size divisible by 2
-  if (size % 2 == 0)
+  if (ceil(log2((float)size)) == floor(log2((float)size)))
   {
     std::complex<double> * input_complex = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
 

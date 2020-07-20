@@ -2,7 +2,7 @@
 
 int main()
 {
-  int size = 4;
+  int size = 16;
   std::complex<double> * input = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
   std::complex<double> * output = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
   std::complex<double> * input_reclaimed = (std::complex<double> *) malloc(size * sizeof(std::complex<double>));
