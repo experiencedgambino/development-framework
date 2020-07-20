@@ -1,6 +1,5 @@
 #include "ListChunk.hpp"
 
-
 bool ListChunk::Deserialize(BufferParser & bufferParser)
 {
   bool return_value {true};
@@ -43,4 +42,6 @@ bool ListChunk::Serialize(BufferSerializer & bufferSerializer)
   {
     bufferSerializer.Set<std::uint8_t>(0);
   } // for
+
+  return true;
 } // Serialize
