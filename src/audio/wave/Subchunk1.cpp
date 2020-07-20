@@ -50,4 +50,6 @@ bool Subchunk1::Serialize(BufferSerializer & bufferSerializer)
   {
     bufferSerializer.Set<std::uint16_t>(0);
   } // if
+
+  return true;
 } // Serialize

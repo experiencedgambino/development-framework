@@ -35,4 +35,6 @@ bool Subchunk2::Serialize(BufferSerializer & bufferSerializer)
   bufferSerializer.Set<std::uint32_t>(chunkSize_);
 
   bufferSerializer.Set<std::uint8_t>(data_, chunkSize_);
+
+  return true;
 } // Serialize

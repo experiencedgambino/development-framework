@@ -43,4 +43,6 @@ bool JunkChunk::Serialize(BufferSerializer & bufferSerializer)
   {
     bufferSerializer.Set<std::uint8_t>(dummyByte_);
   } // for
+
+  return true;
 } // Serialize

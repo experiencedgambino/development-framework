@@ -25,4 +25,5 @@ bool RiffHeader::Serialize(BufferSerializer & bufferSerializer)
   bufferSerializer.Set<std::uint32_t>(BufferParser::SwapEndian(chunkID_));
   bufferSerializer.Set<std::uint32_t>(restOfBufferSize_);
   bufferSerializer.Set<std::uint32_t>(BufferParser::SwapEndian(waveString_));
+  return true;
 } // Serialize
