@@ -35,8 +35,9 @@ void BufferSerializer::Set(const T & value)
   else
   {
     *(reinterpret_cast<T*>(buffer_ + bufferIndex_)) = value;
-    bufferIndex_ += sizeof(T);
   } // else
+
+  bufferIndex_ += sizeof(T);
 } // BufferSerializer
 
 template<typename T>
@@ -49,8 +50,9 @@ void BufferSerializer::Set(T * data, std::size_t size)
   else
   {
     std::memcpy(buffer_ + bufferIndex_, data, sizeof(T) * size);
-    bufferIndex_ += sizeof(T) * size;
   } // else
+
+  bufferIndex_ += sizeof(T) * size;
 } // Set
 
 #endif // BUFFERSERIALIZER_HPP_
