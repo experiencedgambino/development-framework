@@ -75,10 +75,7 @@ void WavReader::GetStream(std::ostream & output) const
 {
   // Pipe all output to stream
   output << ".....Wavefile...." << std::endl;
-  // output << "RIFF: " << mWaveHeader.RIFF << std::endl;
-  // output << "FMT des: " << mWaveHeader.WAVE << std::endl;
   output << "Subchunk 1 ID: " << subchunk1_->chunkIdentifier_ << std::endl;
-  // output << "Subchunk 2 ID: " << subchunk2_->DATA << std::endl;
   output << "Format: " << subchunk1_->audioFormat_ << std::endl;
   output << "Num channels: " << subchunk1_->numChannels_ << std::endl;
   output << "BitsPerSample: " << subchunk1_->bitsPerSample_ << std::endl;
@@ -105,7 +102,6 @@ bool WavReader::Deserialize(void)
       {
         // Set chunk to correct order, and increment order counter
         chunkvector_[available_chunk_counter].first = found_counter++;
-        std::cout << available_chunk_counter << std::endl;
 
         // Break out of inner loop
         break;
