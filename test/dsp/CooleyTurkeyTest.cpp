@@ -13,8 +13,8 @@ int main()
     input[i].real(i+1);
   } // for
 
-  fft_attempt(input, output, size, 1);
-  ifft_attempt(output, input_reclaimed, size);
+  CooleyTurkeyFFT::fft_attempt(input, output, size, 1);
+  CooleyTurkeyFFT::ifft_attempt(output, input_reclaimed, size);
 
   for (int i = 0; i < size; ++i)
   {
