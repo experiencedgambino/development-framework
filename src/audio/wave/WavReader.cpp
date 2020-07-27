@@ -1,11 +1,11 @@
 #include "WavReader.hpp"
 
+const std::int16_t WavReader::NOT_FOUND = -1;
+
 const std::uint16_t WavReader::FOUR_BYTES = 4;
 const std::uint16_t WavReader::TWO_BYTES = 2;
 
 const std::uint16_t WavReader::SIXTEEN_BITS_PER_SAMPLE = 16;
-const std::uint16_t WavReader::EIGHT_BITS_PER_SAMPLE = 8;
-
 
 const std::uint16_t WavReader::SIXTEEN_BITS_PER_SAMPLE_VALUE_OFFSET = 2;
 
@@ -13,10 +13,12 @@ WavReader::WavReader():
     mInputFileStream(),
     mOutputFileStream(),
     mWavFileBuffer(),
-    mBufferOffset(0),
-    subchunk1_(),
-    subchunk2_()
+    mBufferOffset(0)
 {
+  chunkvector_.push_back(std::pair<std::int16_t, std::shared_ptr<RiffChunk>>(NOT_FOUND, junkchunk_));
+  chunkvector_.push_back(std::pair<std::int16_t, std::shared_ptr<RiffChunk>>(NOT_FOUND, listchunk_));
+  chunkvector_.push_back(std::pair<std::int16_t, std::shared_ptr<RiffChunk>>(NOT_FOUND, subchunk1_));
+  chunkvector_.push_back(std::pair<std::int16_t, std::shared_ptr<RiffChunk>>(NOT_FOUND, subchunk2_));
 } // WavReader
 
 WavReader::~WavReader()
@@ -75,12 +77,12 @@ void WavReader::GetStream(std::ostream & output) const
   output << ".....Wavefile...." << std::endl;
   // output << "RIFF: " << mWaveHeader.RIFF << std::endl;
   // output << "FMT des: " << mWaveHeader.WAVE << std::endl;
-  output << "Subchunk 1 ID: " << subchunk1_.chunkIdentifier_ << std::endl;
-  // output << "Subchunk 2 ID: " << subchunk2_.DATA << std::endl;
-  output << "Format: " << subchunk1_.audioFormat_ << std::endl;
-  output << "Num channels: " << subchunk1_.numChannels_ << std::endl;
-  output << "BitsPerSample: " << subchunk1_.bitsPerSample_ << std::endl;
-  output << "Samples: " << subchunk2_.chunkSize_ << std::endl;
+  output << "Subchunk 1 ID: " << subchunk1_->chunkIdentifier_ << std::endl;
+  // output << "Subchunk 2 ID: " << subchunk2_->DATA << std::endl;
+  output << "Format: " << subchunk1_->audioFormat_ << std::endl;
+  output << "Num channels: " << subchunk1_->numChannels_ << std::endl;
+  output << "BitsPerSample: " << subchunk1_->bitsPerSample_ << std::endl;
+  output << "Samples: " << subchunk2_->chunkSize_ << std::endl;
   return;
 } // GetStream
 
@@ -90,39 +92,26 @@ bool WavReader::Deserialize(void)
 
   if (riffHeader_.Deserialize(parser) == false)
   {
-    std::cout << "Unable to parser riff header" << std::endl;
+    std::cout << "Unable to parse riff header" << std::endl;
     return false;
   } // if
 
-  if (junkchunk_.Deserialize(parser) == false)
+  std::int16_t found_counter = 0;
+  for (std::size_t index = 0; index < chunkvector_.size(); ++index)
   {
-    foundJunk_ = false;
-    std::cout << "INFO: Didn't find junk chunk" << std::endl;
-  } // if
-  else
-  {
-    foundJunk_ = true;
-  } // else
+    for (std::size_t available_chunk_counter = 0; available_chunk_counter < chunkvector_.size(); ++available_chunk_counter)
+    {
+      if (chunkvector_[available_chunk_counter].second->Deserialize(parser) == true)
+      {
+        // Set chunk to correct order, and increment order counter
+        chunkvector_[available_chunk_counter].first = found_counter++;
+        std::cout << available_chunk_counter << std::endl;
 
-  if (listchunk_.Deserialize(parser) == false)
-  {
-    foundList_ = false;
-    std::cout << "INFO: Didn't find list chunk" << std::endl;
-  } // if
-  else
-  {
-    foundList_ = true;
-  } // else
-
-  if (subchunk1_.Deserialize(parser) == false)
-  {
-    std::cout << "Unable to parse subchunk 1" << std::endl;
-  } // if
-
-  if (subchunk2_.Deserialize(parser) == false)
-  {
-    std::cout << "Unable to parse subchunk 2" << std::endl;
-  } // if
+        // Break out of inner loop
+        break;
+      } // if
+    } // for
+  } // for
 
   mBufferOffset = parser.GetCurrentSize();
 
@@ -139,27 +128,25 @@ std::uint32_t WavReader::Serialize(void)
   // Wav File Header
   riffHeader_.Serialize(serializer);
 
-  if (foundJunk_ == true)
+  std::int16_t found_counter = 0;
+  for (std::size_t index = 0; index < chunkvector_.size(); ++index)
   {
-    junkchunk_.Serialize(serializer);
-  } // if
-
-  if (foundList_ == true)
-  {
-    listchunk_.Serialize(serializer);
-  } // if
-  subchunk1_.Serialize(serializer);
-  subchunk2_.Serialize(serializer);
+    if (chunkvector_[index].first != NOT_FOUND)
+    {
+      chunkvector_[index].second->Serialize(serializer);
+      chunkvector_[index].first = NOT_FOUND;
+    } // if
+  } // for
 
   return serializer.GetCurrentSize();
 } // Serialize
 
 std::int16_t WavReader::GetSample(const std::uint32_t & sampleNumber, const WavReader::Channel_e & channel) const
 {
-  if (subchunk1_.bitsPerSample_ == SIXTEEN_BITS_PER_SAMPLE)
+  if (subchunk1_->bitsPerSample_ == SIXTEEN_BITS_PER_SAMPLE)
   {
     return *(reinterpret_cast<std::int16_t *>(
-              subchunk2_.data_ + SIXTEEN_BITS_PER_SAMPLE_VALUE_OFFSET*(sampleNumber*subchunk1_.numChannels_+channel)
+              subchunk2_->data_ + SIXTEEN_BITS_PER_SAMPLE_VALUE_OFFSET*(sampleNumber*subchunk1_->numChannels_+channel)
           ));
   } // if
   else
@@ -176,7 +163,7 @@ std::int16_t WavReader::GetSample(const std::uint32_t & sampleNumber) const
 void WavReader::SetSample(const std::uint32_t & sampleNumber, const WavReader::Channel_e & channel, const std::int16_t & value)
 {
   *(reinterpret_cast<std::int16_t *>(
-    subchunk2_.data_ + SIXTEEN_BITS_PER_SAMPLE_VALUE_OFFSET*(sampleNumber*subchunk1_.numChannels_+channel)
+    subchunk2_->data_ + SIXTEEN_BITS_PER_SAMPLE_VALUE_OFFSET*(sampleNumber*subchunk1_->numChannels_+channel)
    )) = value;
   return;
 } // SetSample
@@ -189,9 +176,9 @@ void WavReader::SetSample(const std::uint32_t & sampleNumber, const std::int16_t
 
 std::uint32_t WavReader::DataSize(void)
 {
-  if ((subchunk1_.numChannels_ != 0) && (subchunk1_.bitsPerSample_ != 0))
+  if ((subchunk1_->numChannels_ != 0) && (subchunk1_->bitsPerSample_ != 0))
   {
-    return subchunk2_.chunkSize_ * 8 / (subchunk1_.numChannels_ * subchunk1_.bitsPerSample_);
+    return subchunk2_->chunkSize_ * 8 / (subchunk1_->numChannels_ * subchunk1_->bitsPerSample_);
   } // if
   else
   {

@@ -6,6 +6,8 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <memory>
+#include <vector>
 
 #include "RiffChunk.hpp"
 #include "RiffHeader.hpp"
@@ -44,15 +46,15 @@ private:
   std::uint16_t SwapEndian(const std::uint16_t & num);
   std::uint32_t SwapEndian(const std::uint32_t & num);
 
-  Subchunk1 subchunk1_;
-  Subchunk2 subchunk2_;
-  JunkChunk junkchunk_;
-  ListChunk listchunk_;
+  std::vector<std::pair<std::int16_t, std::shared_ptr<RiffChunk>>> chunkvector_;
   RiffHeader riffHeader_;
+  std::shared_ptr<Subchunk1> subchunk1_ {std::make_shared<Subchunk1>()};
+  std::shared_ptr<Subchunk2> subchunk2_ {std::make_shared<Subchunk2>()};
+  std::shared_ptr<JunkChunk> junkchunk_ {std::make_shared<JunkChunk>()};
+  std::shared_ptr<ListChunk> listchunk_ {std::make_shared<ListChunk>()};
 
   bool foundJunk_ {false};
   bool foundList_ {false};
-
 
   std::ifstream   mInputFileStream;
   std::ofstream   mOutputFileStream;
@@ -62,12 +64,12 @@ private:
 
   std::size_t length_of_file;
 
+  static const std::int16_t NOT_FOUND;
+
   static const std::uint16_t FOUR_BYTES;
   static const std::uint16_t TWO_BYTES;
-
   static const std::uint16_t SIXTEEN_BITS_PER_SAMPLE;
   static const std::uint16_t SIXTEEN_BITS_PER_SAMPLE_VALUE_OFFSET;
-  static const std::uint16_t EIGHT_BITS_PER_SAMPLE;
 }; // WavReader
 
 #endif /* WAV_READER_HPP */
