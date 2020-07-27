@@ -10,7 +10,7 @@
 #define OUTPUT_PATH_ARG 2
 
 #define FFT_SECTOR_SIZE 4096
-#define NUM_MINS_TO_ELIMINATE 4000
+#define NUM_MINS_TO_ELIMINATE 4090
 
 int main(int argc, char ** argv)
 {
@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
     std::size_t output_start = (sector_counter * FFT_SECTOR_SIZE);
 
     // CHANNEL 1 calculations
-    if (fft(channel_one_double_array+output_start, output, FFT_SECTOR_SIZE) == false)
+    if (CooleyTurkeyFFT::fft(channel_one_double_array+output_start, output, FFT_SECTOR_SIZE) == false)
     {
       std::cout << "Cannot take FFT chan 1" << std::endl;
     } // if
@@ -57,7 +57,7 @@ int main(int argc, char ** argv)
       magnitude_output[minimum_output] = std::numeric_limits<double>().max();
       output[minimum_output] = std::complex<double>(0,0);
     } // for
-    ifft_attempt(output, input_compressed, FFT_SECTOR_SIZE);
+    CooleyTurkeyFFT::ifft_attempt(output, input_compressed, FFT_SECTOR_SIZE);
     for(std::size_t n_counter = 0; n_counter < FFT_SECTOR_SIZE; ++n_counter)
     {
       reader.SetSample(output_start + n_counter, WavReader::Channel_e::CHANNEL_ONE, input_compressed[n_counter].real());
@@ -65,7 +65,7 @@ int main(int argc, char ** argv)
 
 
     // CHANNEL 2 calculations
-    if (fft(channel_two_double_array+output_start, output, FFT_SECTOR_SIZE) == false)
+    if (CooleyTurkeyFFT::fft(channel_two_double_array+output_start, output, FFT_SECTOR_SIZE) == false)
     {
       std::cout << "Cannot take FFT chan 2" << std::endl;
     } // if
@@ -79,7 +79,7 @@ int main(int argc, char ** argv)
       magnitude_output[minimum_output] = std::numeric_limits<double>().max();
       output[minimum_output] = std::complex<double>(0,0);
     } // for
-    ifft_attempt(output, input_compressed, FFT_SECTOR_SIZE);
+    CooleyTurkeyFFT::ifft_attempt(output, input_compressed, FFT_SECTOR_SIZE);
     for(std::size_t n_counter = 0; n_counter < FFT_SECTOR_SIZE; ++n_counter)
     {
       reader.SetSample(output_start + n_counter, WavReader::Channel_e::CHANNEL_TWO, input_compressed[n_counter].real());
