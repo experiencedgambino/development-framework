@@ -63,16 +63,17 @@ int main(int argc, char ** argv)
       reader.SetSample(output_start + n_counter, WavReader::Channel_e::CHANNEL_ONE, input_compressed[n_counter].real());
     } // for
 
-
     // CHANNEL 2 calculations
     if (CooleyTurkeyFFT::fft(channel_two_double_array+output_start, output, FFT_SECTOR_SIZE) == false)
     {
       std::cout << "Cannot take FFT chan 2" << std::endl;
     } // if
+
     for (std::size_t k_counter = 0; k_counter < FFT_SECTOR_SIZE; ++k_counter)
     {
       magnitude_output[k_counter] = std::abs(output[k_counter]);
     } // for
+
     for (std::size_t min_counter = 0; min_counter < NUM_MINS_TO_ELIMINATE; ++min_counter)
     {
       std::size_t minimum_output = std::min_element(magnitude_output, magnitude_output+FFT_SECTOR_SIZE) - magnitude_output;
@@ -84,7 +85,6 @@ int main(int argc, char ** argv)
     {
       reader.SetSample(output_start + n_counter, WavReader::Channel_e::CHANNEL_TWO, input_compressed[n_counter].real());
     } // for
-
   } // for
 
   reader.Write(argv[OUTPUT_PATH_ARG]);

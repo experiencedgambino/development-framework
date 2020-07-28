@@ -8,7 +8,7 @@ Subchunk2::Subchunk2()
 bool Subchunk2::Deserialize(BufferParser & bufferParser)
 {
   bool return_value {true};
-
+  
   if (BufferParser::SwapEndian(bufferParser.Peek<std::uint32_t>()) == Subchunk2::CHUNK_ID)
   {
     chunkIdentifier_ = BufferParser::SwapEndian(bufferParser.Get<std::uint32_t>());
