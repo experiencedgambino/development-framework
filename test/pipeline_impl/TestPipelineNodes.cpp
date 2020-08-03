@@ -1,16 +1,17 @@
-#include "HexPrinterNode.hpp"
+#include "FileRecorderNode.hpp"
+#include "PCMDevicePlayerNode.hpp"
 #include "SignalUntilKill.hpp"
-#include "UdpReceiverNode.hpp"
 
 int main()
 {
-  std::shared_ptr<Node> hex_printer_node = std::make_shared<HexPrinterNode>();
-  std::shared_ptr<Node> udp_receiver_node = std::make_shared<UdpReceiverNode>();
+  std::shared_ptr<Node> audio_player_node = std::make_shared<PCMDevicePlayerNode>();
+  std::shared_ptr<Node> file_recorder_node = std::make_shared<FileRecorderNode>();
 
-  std::dynamic_pointer_cast<UdpReceiverNode>(udp_receiver_node)->Initialize("127.0.0.1", 19000);
-  std::dynamic_pointer_cast<UdpReceiverNode>(udp_receiver_node)->Run();
-  std::dynamic_pointer_cast<HexPrinterNode>(hex_printer_node)->Run();
-  udp_receiver_node->RegisterNodeAsNext(hex_printer_node);
+  std::dynamic_pointer_cast<PCMDevicePlayerNode>(audio_player_node)->Initialize();
+  std::dynamic_pointer_cast<FileRecorderNode>(file_recorder_node)->Initialize("out.audio.bin");
+  std::dynamic_pointer_cast<PCMDevicePlayerNode>(audio_player_node)->Run();
+  std::dynamic_pointer_cast<FileRecorderNode>(file_recorder_node)->Run();
+  audio_player_node->RegisterNodeAsNext(file_recorder_node);
 
   SignalUntilKill suk;
   suk.ReturnOnSignal();

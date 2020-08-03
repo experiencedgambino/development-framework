@@ -4,7 +4,6 @@
 #include <iostream>
 #include "AbstractThread.hpp"
 #include "AsyncNode.hpp"
-#include "UdpReceiver.hpp"
 
 class HexPrinterNode: public AsyncNode
 {

@@ -16,6 +16,11 @@ public:
 
   void ReadSound(void);
 
+  const char * Data();
+  std::size_t Size();
+
+  void Shutdown();
+
 private:
   snd_pcm_t *handle_;
   std::size_t buffersize_ {0};

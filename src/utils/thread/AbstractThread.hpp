@@ -12,7 +12,7 @@ public:
   virtual bool IsRunning(void) const final;
   virtual void Run(void) final;
   virtual void Stop(void) final;
-
+  void DetachStop(void);
 protected:
   virtual void RunThread(void) = 0;
 

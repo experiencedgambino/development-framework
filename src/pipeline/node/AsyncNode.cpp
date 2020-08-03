@@ -1,4 +1,14 @@
+
 #include "AsyncNode.hpp"
+
+AsyncNode::~AsyncNode()
+{
+  DetachStop();
+  while (thread_finished_ == false)
+  {
+    message_queue_.Enqueue(nullptr);
+  } // while
+}
 
 void AsyncNode::OnDataAvailable(std::shared_ptr<PipelineData> data)
 {
@@ -7,6 +17,7 @@ void AsyncNode::OnDataAvailable(std::shared_ptr<PipelineData> data)
 
 void AsyncNode::RunThread(void)
 {
+  thread_finished_ = false;
   while (IsRunning() == true)
   {
     std::shared_ptr<PipelineData> new_data = message_queue_.WaitDequeue();
@@ -14,5 +25,11 @@ void AsyncNode::RunThread(void)
     {
       OnDataAvailableAsync(new_data);
     } // if
+    else
+    {
+      // Continue
+    }
   } // while
+
+  thread_finished_ = true;
 } // RunThread

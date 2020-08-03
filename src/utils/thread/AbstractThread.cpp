@@ -1,5 +1,7 @@
 #include "AbstractThread.hpp"
 
+#include <iostream>
+
 AbstractThread::AbstractThread()
 {
 
@@ -22,5 +24,12 @@ void AbstractThread::Run(void)
 
 void AbstractThread::Stop(void)
 {
+  running_ = false;
   thread_.join();
+} // Stop
+
+void AbstractThread::DetachStop(void)
+{
+  thread_.detach();
+  running_ = false;
 } // Stop
