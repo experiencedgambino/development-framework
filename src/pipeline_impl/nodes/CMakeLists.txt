@@ -1,6 +1,7 @@
-add_library(nodes_impl UdpReceiverNode.cpp FileRecorderNode.cpp HexPrinterNode.cpp PCMDevicePlayerNode.cpp)
+add_library(nodes_impl UdpReceiverNode.cpp FileRecorderNode.cpp HexPrinterNode.cpp PCMDevicePlayerNode.cpp FFTNode.cpp)
 target_include_directories(nodes_impl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(nodes_impl node)
 target_link_libraries(nodes_impl sockets)
 target_link_libraries(nodes_impl sound)
 target_link_libraries(nodes_impl threads)
+target_link_libraries(nodes_impl dsp)

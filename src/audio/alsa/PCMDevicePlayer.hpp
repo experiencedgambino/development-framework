@@ -4,6 +4,7 @@
 #define ALSA_PCM_NEW_HW_PARAMS_API
 
 #include <alsa/asoundlib.h>
+#include <cstdint>
 #include <iostream>
 
 class PCMDevicePlayer
@@ -20,6 +21,13 @@ public:
   std::size_t Size();
 
   void Shutdown();
+
+public:
+  static const std::uint32_t NUMBER_CHANNELS;
+  static const int BYTES_PER_SAMPLE;
+  static const int NUMBER_OF_FRAMES;
+  static std::uint32_t SAMPLING_RATE;
+
 
 private:
   snd_pcm_t *handle_;

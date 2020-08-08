@@ -1,5 +1,10 @@
 #include "PCMDevicePlayer.hpp"
 
+const std::uint32_t PCMDevicePlayer::NUMBER_CHANNELS = 2;
+const int PCMDevicePlayer::BYTES_PER_SAMPLE = 2;
+const int PCMDevicePlayer::NUMBER_OF_FRAMES = 32;
+std::uint32_t PCMDevicePlayer::SAMPLING_RATE = 44100;
+
 PCMDevicePlayer::PCMDevicePlayer()
 {
 
@@ -59,15 +64,14 @@ bool PCMDevicePlayer::Initialize(void)
                               SND_PCM_FORMAT_S16_LE);
 
   /* Two channels (stereo) */
-  snd_pcm_hw_params_set_channels(handle_, params, 2);
+  snd_pcm_hw_params_set_channels(handle_, params, NUMBER_CHANNELS);
 
-  /* 44100 bits/second sampling rate (CD quality) */
-  val = 44100;
+
   snd_pcm_hw_params_set_rate_near(handle_, params,
-                                  &val, &dir);
+                                  &SAMPLING_RATE, &dir);
 
-  /* Set period size to 32 frames. */
-  frames_ = 32;
+  // Set period size
+  frames_ = NUMBER_OF_FRAMES;
   snd_pcm_hw_params_set_period_size_near(handle_,
                               params, &frames_, &dir);
 
@@ -85,7 +89,7 @@ bool PCMDevicePlayer::Initialize(void)
   /* Use a buffer large enough to hold one period */
   snd_pcm_hw_params_get_period_size(params,
                                       &frames_, &dir);
-  buffersize_ = frames_ * 4; /* 2 bytes/sample, 2 channels */
+  buffersize_ = frames_ * NUMBER_CHANNELS * BYTES_PER_SAMPLE;
   buffer_ = (char *) malloc(buffersize_);
 
   /* We want to loop for 5 seconds */
@@ -115,11 +119,6 @@ void PCMDevicePlayer::ReadSound(void)
   {
     fprintf(stderr, "short read, read %d frames\n", asound_ret);
   }
-  if (asound_ret != buffersize_)
-  {
-    // fprintf(stderr,
-            // "short write: wrote %d bytes\n", asound_ret);
-  } // if
 } // ReadSound
 
 const char * PCMDevicePlayer::Data()
