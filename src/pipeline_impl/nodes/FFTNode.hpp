@@ -8,7 +8,7 @@
 class FFTNode: public AsyncNode
 {
 public:
-  FFTNode();
+  FFTNode(std::size_t expectedDataSize);
   ~FFTNode();
 
   void OnDataAvailableAsync(std::shared_ptr<PipelineData> data) override;
@@ -19,7 +19,8 @@ private:
   void CopyFromInputBuffer(std::int16_t * buffer, std::size_t size);
 
 private:
-  static const std::size_t FFT_SIZE;
+  std::size_t expectedDataSize_;
+  std::size_t fftSize_;
   std::vector<std::complex<double>> input;
   std::vector<std::complex<double>> output;
   std::vector<std::complex<double>> input_filtered;

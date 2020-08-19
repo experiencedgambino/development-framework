@@ -7,6 +7,8 @@
 class PipelineData
 {
 public:
+  PipelineData();
+  PipelineData(std::size_t allocatedsize);
   ~PipelineData();
   PipelineData & operator=(const PipelineData & data);
 

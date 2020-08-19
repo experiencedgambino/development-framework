@@ -1,13 +1,13 @@
 #include "FFTNode.hpp"
 
-const std::size_t FFTNode::FFT_SIZE = PCMDevicePlayer::NUMBER_OF_FRAMES * PCMDevicePlayer::BYTES_PER_SAMPLE;
-
-FFTNode::FFTNode()
+FFTNode::FFTNode(std::size_t expectedDataSize):
+  expectedDataSize_(expectedDataSize),
+  fftSize_(expectedDataSize / PCMDevicePlayer::NUMBER_CHANNELS)
 {
-  input.resize(FFTNode::FFT_SIZE);
-  output.resize(FFTNode::FFT_SIZE);
-  input_filtered.resize(FFTNode::FFT_SIZE);
-  magnitude_output.resize(FFTNode::FFT_SIZE);
+  input.resize(fftSize_);
+  output.resize(fftSize_);
+  input_filtered.resize(fftSize_);
+  magnitude_output.resize(fftSize_);
 }
 FFTNode::~FFTNode()
 {
@@ -39,19 +39,19 @@ void FFTNode::CopyToInputBuffer(std::int16_t * buffer, std::size_t size)
 
 void FFTNode::FilterInputBuffer()
 {
-  CooleyTurkeyFFT::fft_attempt(input.data(), output.data(), FFTNode::FFT_SIZE, 1);
+  CooleyTurkeyFFT::fft_attempt(input.data(), output.data(), fftSize_, 1);
 
-  for (std::size_t k_counter = 0; k_counter < FFTNode::FFT_SIZE; ++k_counter)
+  for (std::size_t k_counter = 0; k_counter < fftSize_; ++k_counter)
   {
     magnitude_output[k_counter] = std::abs(output[k_counter]);
   } // for
-  for (std::size_t min_counter = 0; min_counter < FFTNode::FFT_SIZE - 1; ++min_counter)
+  for (std::size_t min_counter = 0; min_counter < 1 - 1; ++min_counter)
   {
-    std::size_t minimum_output = std::min_element(magnitude_output.begin(), magnitude_output.begin()+FFTNode::FFT_SIZE) - magnitude_output.begin();
+    std::size_t minimum_output = std::min_element(magnitude_output.begin(), magnitude_output.begin()+fftSize_) - magnitude_output.begin();
     magnitude_output[minimum_output] = std::numeric_limits<double>().max();
     output[minimum_output] = std::complex<double>(0,0);
   } // for
-  CooleyTurkeyFFT::ifft_attempt(output.data(), input_filtered.data(), FFTNode::FFT_SIZE);
+  CooleyTurkeyFFT::ifft_attempt(output.data(), input_filtered.data(), fftSize_);
 
 } // FFTInputBuffer
 

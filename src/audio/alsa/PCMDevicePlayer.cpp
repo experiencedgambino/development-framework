@@ -90,6 +90,7 @@ bool PCMDevicePlayer::Initialize(void)
   snd_pcm_hw_params_get_period_size(params,
                                       &frames_, &dir);
   buffersize_ = frames_ * NUMBER_CHANNELS * BYTES_PER_SAMPLE;
+
   buffer_ = (char *) malloc(buffersize_);
 
   /* We want to loop for 5 seconds */

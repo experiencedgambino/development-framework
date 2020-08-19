@@ -12,6 +12,7 @@ FileRecorderNode::~FileRecorderNode()
 bool FileRecorderNode::Initialize(const std::string & filename)
 {
   outputstream_.open (filename, std::ios::binary | std::ios::out);
+  return true;
 } // Initialize
 
 void FileRecorderNode::OnDataAvailableAsync(std::shared_ptr<PipelineData> data)
