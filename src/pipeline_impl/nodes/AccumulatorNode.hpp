@@ -22,6 +22,7 @@ private:
 
   // storage for data that isn't ready yet
   std::shared_ptr<PipelineData> bufferToSend_;
+  std::vector<std::uint8_t> accumulate_queue;
 
 }; // AccumulatorNode
 
