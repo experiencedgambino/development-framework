@@ -46,7 +46,7 @@ void FFTNode::FilterInputBuffer()
   {
     magnitude_output[k_counter] = std::abs(output[k_counter]);
   } // for
-  for (std::size_t min_counter = 0; min_counter < 0; ++min_counter)
+  for (std::size_t min_counter = 0; min_counter < fftSize_ - 1; ++min_counter)
   {
     std::size_t minimum_output = std::min_element(magnitude_output.begin(), magnitude_output.begin()+fftSize_) - magnitude_output.begin();
     magnitude_output[minimum_output] = std::numeric_limits<double>().max();
