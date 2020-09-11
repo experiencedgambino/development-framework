@@ -1,3 +1,7 @@
 add_executable(TestPipelineNodes TestPipelineNodes.cpp)
 target_link_libraries(TestPipelineNodes nodes_impl)
 target_link_libraries(TestPipelineNodes signalutils)
+
+add_executable(TestFileReaderWriter TestFileReaderWriterAccumulator.cpp)
+target_link_libraries(TestFileReaderWriter nodes_impl)
+target_link_libraries(TestFileReaderWriter signalutils)

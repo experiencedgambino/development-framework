@@ -1,5 +1,6 @@
 add_library(nodes_impl
   UdpReceiverNode.cpp
+  FileReaderNode.cpp
   FileRecorderNode.cpp
   HexPrinterNode.cpp
   PCMDevicePlayerNode.cpp
