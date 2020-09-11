@@ -1,2 +1,5 @@
-add_executable(TestPCMDevicePlayer TestPCMDevicePlayer.cpp)
-target_link_libraries(TestPCMDevicePlayer sound)
+add_executable(TestPCMDeviceInput TestPCMDevicePlayer.cpp)
+target_link_libraries(TestPCMDeviceInput sound)
+
+add_executable(TestPCMDeviceOutput TestPCMDeviceOutput.cpp)
+target_link_libraries(TestPCMDeviceOutput sound)
