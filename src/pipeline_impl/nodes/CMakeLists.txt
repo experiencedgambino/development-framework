@@ -6,6 +6,7 @@ add_library(nodes_impl
   HexPrinterNode.cpp
   PCMDevicePlayerNode.cpp
   FFTNode.cpp
+  FrameDisplayNode.cpp
   AccumulatorNode.cpp
 )
 

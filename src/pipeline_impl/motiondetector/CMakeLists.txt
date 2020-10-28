@@ -1,0 +1,4 @@
+add_library(MotionDetector MotionDetector_node.cpp)
+target_link_libraries(MotionDetector node)
+target_link_libraries(MotionDetector opencv_constructs)
+target_include_directories(MotionDetector PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

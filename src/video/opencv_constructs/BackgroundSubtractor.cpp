@@ -11,10 +11,8 @@ void BackgroundSubtractor::resetBackground(cv::Mat & frame)
 
 void BackgroundSubtractor::addFrame(cv::Mat frame, float percentNew)
 {
-    cv::Mat grayFrame;
-    cv::cvtColor(frame, grayFrame, cv::COLOR_BGR2GRAY);
-    cv::addWeighted(mBackground, 1.0 - percentNew, grayFrame, percentNew, 0, mBackground, 0);
-    cv::absdiff(grayFrame, mBackground, mDiff);
+    cv::addWeighted(mBackground, 1.0 - percentNew, frame, percentNew, 0, mBackground, 0);
+    cv::absdiff(frame, mBackground, mDiff);
 } // addFrame
 
 cv::Mat BackgroundSubtractor::getBackground()

@@ -7,7 +7,6 @@ MotionDetector::MotionDetector()
 
 bool MotionDetector::detect(const cv::Mat & frame, const cv::Mat & reference)
 {
-    cv::Mat grayFrame;
     cv::Mat difference;
     cv::Mat threshold;
     cv::Mat opened_image;
@@ -18,8 +17,7 @@ bool MotionDetector::detect(const cv::Mat & frame, const cv::Mat & reference)
 
     std::vector<std::vector<cv::Point>> contours;
 
-    cv::cvtColor(frame, grayFrame, cv::COLOR_BGR2GRAY);
-    cv::absdiff(grayFrame, reference, difference);
+    cv::absdiff(frame, reference, difference);
     cv::threshold(difference, threshold, 20, 255, cv::THRESH_BINARY);
     cv::morphologyEx(threshold, opened_image, cv::MORPH_OPEN, kernel);
     cv::morphologyEx(opened_image, dilated_image, cv::MORPH_DILATE, kernel_dilate);

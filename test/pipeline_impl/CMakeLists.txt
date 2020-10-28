@@ -5,3 +5,8 @@ target_link_libraries(TestPipelineNodes signalutils)
 add_executable(TestFileReaderWriter TestFileReaderWriterAccumulator.cpp)
 target_link_libraries(TestFileReaderWriter nodes_impl)
 target_link_libraries(TestFileReaderWriter signalutils)
+
+add_executable(TestVideo TestVideo.cpp)
+target_link_libraries(TestVideo nodes_impl)
+target_link_libraries(TestVideo signalutils)
+target_link_libraries(TestVideo MotionDetector)
