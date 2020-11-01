@@ -1,4 +1,5 @@
 add_library(nodes_impl
+  FrameCaptureNode_Raspicam.cpp
   FrameCaptureNode_Webcam.cpp
   UdpReceiverNode.cpp
   FileReaderNode.cpp
@@ -17,3 +18,4 @@ target_link_libraries(nodes_impl sockets)
 target_link_libraries(nodes_impl sound)
 target_link_libraries(nodes_impl threads)
 target_link_libraries(nodes_impl dsp)
+target_link_libraries(nodes_impl raspicam_3rdParty)

@@ -6,7 +6,7 @@ ExternalProject_Add(opencv3_downloaded
     CMAKE_ARGS -DBUILD_JAVA=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_PROTOBUF=OFF -DBUILD_opencv_apps=OFF -DBUILD_opencv_python3=OFF -DWITH_PROTOBUF=OFF
 )
 
-# add_library(opencv_core SHARED IMPORTED ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_core.so)
+
 add_library(opencv_3rdparty INTERFACE)
 target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_core.so)
 target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_highgui.so)
@@ -22,8 +22,7 @@ ExternalProject_Add(raspicam_downloaded
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/raspicam_install -DOpenCV_DIR=${CMAKE_CURRENT_BINARY_DIR}/opencv_install/share/OpenCV
 )
 
-# add_library(opencv_core SHARED IMPORTED ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_core.so)
 add_library(raspicam_3rdParty INTERFACE)
-target_link_libraries(raspicam_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/raspicam_install/lib/libraspicam.so)
+target_link_libraries(raspicam_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/raspicam_install/lib/libraspicam_cv.so)
 target_include_directories(raspicam_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/raspicam_install/include)
 add_dependencies(raspicam_3rdParty raspicam_downloaded)
