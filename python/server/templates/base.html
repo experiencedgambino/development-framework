@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Welcome to iTunes Library Companion</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Companion: <a href="/">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

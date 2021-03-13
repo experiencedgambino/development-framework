@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Song Listing</h1>
+    {% for post in posts %}
+    <div><p><b>{{ post.artist }}</b></p></div>
+    {% for album in post.albums %}
+    <p style="margin-left:30px">{{ album.title }}</p>
+    {% for song in album.songs %}
+    <!--<div><a style="margin-left:60px" download=song.link>{{ song.song }}</a></div>-->
+
+    <div><a style="margin-left:60px" href={{ song.link }}>{{ song.song }}</a></div>
+
+    {% endfor %}
+    {% endfor %}
+    {% endfor %}
+
+{% endblock %}

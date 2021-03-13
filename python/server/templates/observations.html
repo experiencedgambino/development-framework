@@ -1,0 +1,6 @@
+{% block content %}
+    <h1>Observations</h1>
+    {% for obs in observs %}
+    <div><a href="{{url_for('static',filename=obs.filename)}}">{{ obs.date_string }}</a></div>
+    {% endfor %}
+{% endblock %}
