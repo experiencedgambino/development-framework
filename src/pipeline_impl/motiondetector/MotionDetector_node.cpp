@@ -36,14 +36,15 @@ std::string type2str(int type) {
 
 void MotionDetector_node::OnDataAvailableAsync(std::shared_ptr<PipelineData> data)
 {
-  count = (count + 1) % 5;
+  count = (count + 1) % FRAME_BETWEEN_WAIT;
 
-  if (count == 4)
+  if (count == FRAME_BETWEEN_WAIT-1)
   {
     cv::imdecode(cv::InputArray(data->buffer_), 0, &frame_);
 
     ImageTransformations::NormalizeImage(frame_);
 
+    std::cout << "Image" << std::endl;
 
     if (building_background_ == true)
     {
@@ -54,8 +55,10 @@ void MotionDetector_node::OnDataAvailableAsync(std::shared_ptr<PipelineData> dat
     bool motion_detected = motion_detector_.detect(frame_, background_subtractor_.getBackground());
     if (motion_detected)
     {
-      std::time_t timestamp = std::time(nullptr);
-      cv::imwrite(MotionDetector_node::DETECTIONS_DIRECTORY + "/" + std::to_string(timestamp) + ".jpg", frame_);
+      std::cout << "Motion detected" << std::endl;
+      std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
+      std::string next_filename = FilenameUtils::GetNextAvailableFilename(MotionDetector_node::DETECTIONS_DIRECTORY + "/" + std::to_string(ms.count()), ".jpg");
+      cv::imwrite(next_filename, frame_);
     } // if
 
     // Note decrease frequency of frame addition

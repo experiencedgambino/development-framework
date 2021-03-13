@@ -2,11 +2,12 @@
 #define MotionDetector_node_HPP_
 
 #include "AsyncNode.hpp"
-#include "MotionDetector.hpp"
 #include "BackgroundSubtractor.hpp"
+#include "FilenameUtils.hpp"
 #include "ImageTransformations.hpp"
+#include "MotionDetector.hpp"
 
-#include <filesystem>
+#include <chrono>
 #include <opencv2/opencv.hpp>
 
 class MotionDetector_node: public AsyncNode
@@ -19,6 +20,7 @@ public:
 
 private:
   static const std::string DETECTIONS_DIRECTORY;
+  static const int FRAME_BETWEEN_WAIT = 4;
 
   cv::Mat frame_;
   cv::Mat gray_frame_;

@@ -26,3 +26,5 @@ add_library(raspicam_3rdParty INTERFACE)
 target_link_libraries(raspicam_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/raspicam_install/lib/libraspicam_cv.so)
 target_include_directories(raspicam_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/raspicam_install/include)
 add_dependencies(raspicam_3rdParty raspicam_downloaded)
+
+add_dependencies(raspicam_3rdParty opencv_3rdparty)
