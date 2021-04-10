@@ -12,6 +12,7 @@ OpenCV_Raspicam::~OpenCV_Raspicam()
 
 bool OpenCV_Raspicam::open()
 {
+  raspicam_.set(cv::CAP_PROP_FORMAT,CV_8UC3);
   if (raspicam_.open() == false)
   {
     return false;

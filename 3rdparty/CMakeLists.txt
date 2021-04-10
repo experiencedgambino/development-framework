@@ -28,3 +28,14 @@ target_include_directories(raspicam_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DI
 add_dependencies(raspicam_3rdParty raspicam_downloaded)
 
 add_dependencies(raspicam_3rdParty opencv_3rdparty)
+
+
+
+
+ExternalProject_Add(rapidjson_downloaded
+    GIT_REPOSITORY https://github.com/Tencent/rapidjson.git
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/install
+)
+add_library(rapidjson_3rdParty INTERFACE)
+target_include_directories(rapidjson_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/rapidjson_3rdParty/include)
+

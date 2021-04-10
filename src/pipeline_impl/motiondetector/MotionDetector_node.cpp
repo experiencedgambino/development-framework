@@ -42,30 +42,47 @@ void MotionDetector_node::OnDataAvailableAsync(std::shared_ptr<PipelineData> dat
   {
     cv::imdecode(cv::InputArray(data->buffer_), 0, &frame_);
 
-    ImageTransformations::NormalizeImage(frame_);
+    bool motion_detected {false};
 
-    std::cout << "Image" << std::endl;
-
-    if (building_background_ == true)
+    if (frame_.channels() != CHANNELS_BGR)
     {
-      background_subtractor_.resetBackground(frame_);
-      building_background_ = false;
-    } // if
+      ImageTransformations::NormalizeImage(frame_);
 
-    bool motion_detected = motion_detector_.detect(frame_, background_subtractor_.getBackground());
+      if (building_background_ == true)
+      {
+        background_subtractor_.resetBackground(frame_);
+        building_background_ = false;
+      } // if
+
+      motion_detected = motion_detector_.detect(frame_, background_subtractor_.getBackground());
+      // Note decrease frequency of frame addition
+      background_subtractor_.addFrame(frame_, .1); // Add a frame to the background subtractor
+    } // if
+    else
+    {
+      cv::cvtColor(frame_, gray_frame_, cv::COLOR_BGR2GRAY);
+      ImageTransformations::NormalizeImage(gray_frame_);
+
+      if (building_background_ == true)
+      {
+        background_subtractor_.resetBackground(gray_frame_);
+        building_background_ = false;
+      } // if
+
+      motion_detected = motion_detector_.detect(gray_frame_, background_subtractor_.getBackground());
+      // Note decrease frequency of frame addition
+      background_subtractor_.addFrame(gray_frame_, .1); // Add a frame to the background subtractor
+    } // else
+
+
     if (motion_detected)
     {
       std::cout << "Motion detected" << std::endl;
+      cv::flip(frame_, flipped_, 0);
       std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
       std::string next_filename = FilenameUtils::GetNextAvailableFilename(MotionDetector_node::DETECTIONS_DIRECTORY + "/" + std::to_string(ms.count()), ".jpg");
-      cv::imwrite(next_filename, frame_);
+      cv::imwrite(next_filename, flipped_);
     } // if
 
-    // Note decrease frequency of frame addition
-    background_subtractor_.addFrame(frame_, .1); // Add a frame to the background subtractor
-
   } // if
-
-  // // Assumes image is greyscale at this point
-
 } // OnDataAvailableAsync

@@ -14,7 +14,7 @@ public:
 
     cv::Mat mFrameOfInterest;
 private:
-    double mAreaThreshold {10000.0};
+    double mAreaThreshold {5000.0};
 
 };
 

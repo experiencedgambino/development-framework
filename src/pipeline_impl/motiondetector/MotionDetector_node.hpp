@@ -20,9 +20,11 @@ public:
 
 private:
   static const std::string DETECTIONS_DIRECTORY;
-  static const int FRAME_BETWEEN_WAIT = 4;
+  static const int FRAME_BETWEEN_WAIT = 6;
+  static const int CHANNELS_BGR = 3;
 
   cv::Mat frame_;
+  cv::Mat flipped_;
   cv::Mat gray_frame_;
   MotionDetector motion_detector_;
   BackgroundSubtractor background_subtractor_;
