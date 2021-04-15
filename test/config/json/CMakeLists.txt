@@ -1,0 +1,3 @@
+add_executable(TestJson TestJson.cpp)
+target_link_libraries(TestJson rapidjson_3rdParty)
+target_link_libraries(TestJson FileUtils)

@@ -2,8 +2,11 @@
 
 void GenericForwarder::ForwardData(std::shared_ptr<PipelineData> data)
 {
-  index_ = (index_ + 1) % receptor_list_.size();
-  receptor_list_[index_]->ReceiveData(data);
+  if (receptor_list_.size() != 0)
+  {
+    index_ = (index_ + 1) % receptor_list_.size();
+    receptor_list_[index_]->ReceiveData(data);
+  } // if
 } // ForwardData
 
 void GenericForwarder::ForwardToNode(std::shared_ptr<Receptor> receptor)

@@ -10,3 +10,7 @@ add_executable(TestVideo TestVideo.cpp)
 target_link_libraries(TestVideo nodes_impl)
 target_link_libraries(TestVideo signalutils)
 target_link_libraries(TestVideo MotionDetector)
+
+add_executable(TestWebCam TestWebCam.cpp)
+target_link_libraries(TestWebCam nodes_impl)
+target_link_libraries(TestWebCam signalutils)
