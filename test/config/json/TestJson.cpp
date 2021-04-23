@@ -1,9 +1,9 @@
 #include "rapidjson/document.h"
 #include "FileReaderUtils_c.hpp"
 #include <iostream>
- 
+
 using namespace rapidjson;
- 
+
 
 int main(int argc, char ** argv)
 {
@@ -11,7 +11,7 @@ int main(int argc, char ** argv)
     {
         std::cout << "Need config file argument" << std::endl;
         return -1;
-    } // 
+    } //
     std::vector<std::string> vec;
     OpenFileAndReadLines(argv[1], vec);
     std::string str = "";
@@ -22,11 +22,14 @@ int main(int argc, char ** argv)
     rapidjson::Document document;
     document.Parse(str.c_str());
     assert(document.HasMember("hello"));
-    std::cout << "Hello" << std::endl;
-    assert(document.HasMember("hello1"));
-    std::cout << "Hellor1" << std::endl;
-    const rapidjson::Value& itemn = document["hello1"];
-    std::cout << itemn["goodbye"].GetInt() << std::endl;
+    assert(document["hello"].IsObject());
+
+    auto obj = document["hello"].GetObject();
+    assert(obj.HasMember("world"));
+    std::cout << obj["world"].GetBool() << std::endl;
+    // assert(document.HasMember("hello1"));
+    // std::cout << "Hellor1" << std::endl;
+    // const rapidjson::Value& itemn = document["hello1"];
+    // std::cout << itemn["goodbye"].GetInt() << std::endl;
 
 } // main
-
