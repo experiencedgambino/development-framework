@@ -13,6 +13,7 @@ target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/open
 target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_imgproc.so)
 target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_videoio.so)
 target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_imgcodecs.so)
+target_link_libraries(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/lib/libopencv_ml.so)
 target_include_directories(opencv_3rdparty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/opencv_install/include)
 add_dependencies(opencv_3rdparty opencv3_downloaded)
 
@@ -39,4 +40,3 @@ ExternalProject_Add(rapidjson_downloaded
 add_library(rapidjson_3rdParty INTERFACE)
 add_dependencies(rapidjson_3rdParty rapidjson_downloaded)
 target_include_directories(rapidjson_3rdParty INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/rapidjson_install/include)
-
