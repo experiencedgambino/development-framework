@@ -16,13 +16,8 @@ public:
 
   void ReadAndParse(const std::string & configPath)
   {
-    std::vector<std::string> vec;
-    OpenFileAndReadLines(configPath, vec);
-    std::string str = "";
-    for (auto line : vec)
-    {
-        str += "\n" + line;
-    } // for
+    std::string str;
+    OpenFileAndReadIntoString(configPath, str);
 
     rapidjson::Document document;
     document.Parse(str.c_str());
