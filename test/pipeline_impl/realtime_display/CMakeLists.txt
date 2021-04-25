@@ -1,0 +1,5 @@
+add_executable(TestWebCam TestWebCam.cpp)
+target_link_libraries(TestWebCam nodes_impl)
+target_link_libraries(TestWebCam signalutils)
+target_link_libraries(TestWebCam FileUtils)
+target_link_libraries(TestWebCam rapidjson_3rdParty)

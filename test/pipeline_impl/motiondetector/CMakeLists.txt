@@ -1,0 +1,4 @@
+add_executable(TestMotionDetector TestMotionDetector.cpp)
+target_link_libraries(TestMotionDetector nodes_impl)
+target_link_libraries(TestMotionDetector signalutils)
+target_link_libraries(TestMotionDetector MotionDetector)
