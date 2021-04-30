@@ -7,3 +7,4 @@ target_link_libraries(TestFileReaderWriter nodes_impl)
 target_link_libraries(TestFileReaderWriter signalutils)
 
 add_subdirectory(realtime_display)
+add_subdirectory(motiondetector)
