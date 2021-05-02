@@ -2,6 +2,7 @@ add_library(opencv_constructs
   BackgroundSubtractor.cpp
   ImageTransformations.cpp
   MotionDetector.cpp
+  RaspicamRaw.cpp
   OpenCV_WebCam.cpp
   OpenCV_Raspicam.cpp
 )

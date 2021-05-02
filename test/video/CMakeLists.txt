@@ -1,0 +1,3 @@
+add_executable(TestRaspicamRaw TestRaspicamRaw.cpp)
+target_link_libraries(TestRaspicamRaw raspicam_3rdParty)
+target_link_libraries(TestRaspicamRaw opencv_3rdparty)

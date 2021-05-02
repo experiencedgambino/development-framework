@@ -15,7 +15,7 @@ public:
 private:
   cv::Mat frame;
   std::size_t counter_ {0};
-  static const int FRAME_DISPLAY_SKIP_COUNT {5};
+  static const int FRAME_DISPLAY_SKIP_COUNT {20};
 
 }; // FRAMEDISPLAYNODE_HPP_
 

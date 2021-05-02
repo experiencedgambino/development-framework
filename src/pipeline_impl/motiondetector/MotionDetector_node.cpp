@@ -40,7 +40,7 @@ void MotionDetector_node::OnDataAvailableAsync(std::shared_ptr<PipelineData> dat
 
   if (count == FRAME_BETWEEN_WAIT-1)
   {
-    cv::imdecode(cv::InputArray(data->buffer_), 0, &frame_);
+    cv::imdecode(cv::InputArray(data->buffer_), cv::IMREAD_COLOR, &frame_);
 
     bool motion_detected {false};
 
@@ -78,10 +78,11 @@ void MotionDetector_node::OnDataAvailableAsync(std::shared_ptr<PipelineData> dat
     if (motion_detected)
     {
       std::cout << "Motion detected" << std::endl;
-      cv::flip(frame_, flipped_, 0);
+      // cv::flip(frame_, flipped_, 0);
       std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch());
       std::string next_filename = FilenameUtils::GetNextAvailableFilename(MotionDetector_node::DETECTIONS_DIRECTORY + "/" + std::to_string(ms.count()), ".jpg");
-      cv::imwrite(next_filename, flipped_);
+      // cv::imwrite(next_filename, flipped_);
+      cv::imwrite(next_filename, frame_);
     } // if
 
   } // if

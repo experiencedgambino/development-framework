@@ -7,6 +7,7 @@
 #include "AbstractThread.hpp"
 #include "Node.hpp"
 #include "OpenCV_Raspicam.hpp"
+#include "RaspicamRaw.hpp"
 
 class FrameCaptureNode_Raspicam: public Node, public AbstractThread
 {
@@ -22,7 +23,7 @@ protected:
 
 
 private:
-  OpenCV_Raspicam webcam_{};
+  RaspicamRaw webcam_{};
 }; // UdpReceiverNode
 
 #endif // FRAMECAPTURENODE_RASPICAM_HPP

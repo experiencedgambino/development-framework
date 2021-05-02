@@ -20,7 +20,7 @@ public:
 
 private:
   static const std::string DETECTIONS_DIRECTORY;
-  static const int FRAME_BETWEEN_WAIT = 6;
+  static const int FRAME_BETWEEN_WAIT = 12;
   static const int CHANNELS_BGR = 3;
 
   cv::Mat frame_;
