@@ -21,20 +21,30 @@ function getImageString() {
 
   file_array.forEach(add_to_html);
   function add_to_html(value, index, array) {
-    return_string += '<a href="' + value + '">' + value + '</a><br></br>';
+    return_string += '<a href="/image/' + value + '">' + value + '</a><br></br>';
   }
   return return_string;
 }
 
+function getIndivImageString(imgname) {
+  var return_string = '<h3>' + imgname + '</h3>';
+  return_string += '<img src="/' + imgname + '"/><br></br>';
+  return_string += '<button>Prev</button>';
+  return_string += '<button>Next</button>';
+  return return_string;
+}
+
 app.get('/', function (req, res) {
-   res.send('Hello World');
+  res.send(getImageString());
 })
 
-app.get('/image', function (req, res) {
-  res.send(getImageString())
+app.get('/image/*', function (req, res) {
+  var lastItem = req.url.substring(req.url.lastIndexOf('/') + 1)
+  console.log(lastItem)
+  res.send(getIndivImageString(lastItem));
 })
 
-var server = app.listen(8081, function () {
+var server = app.listen(5000, function () {
    var host = server.address().address
    var port = server.address().port
 
